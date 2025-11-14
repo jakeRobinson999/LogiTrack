@@ -1,0 +1,78 @@
+@LogiTrack_HostAddress = http://localhost:5042
+
+###
+
+# Inventory controller tests
+
+# 1) List inventory (should return array)
+GET {{LogiTrack_HostAddress}}/api/inventory
+Accept: application/json
+
+###
+
+# 2) Create a new inventory item
+POST {{LogiTrack_HostAddress}}/api/inventory
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Widget A",
+  "quantity": 10
+}
+
+###
+# Inspect the POST response for the created item's id (or run the GET below and take the id from the returned list).
+
+# 3) List inventory again (confirm the new item appears)
+GET {{LogiTrack_HostAddress}}/api/inventory
+Accept: application/json
+
+###
+
+# 4) Delete an item by id
+# Replace {id} with the actual Id from the POST response or from the GET list above.
+DELETE {{LogiTrack_HostAddress}}/api/inventory/{id}
+
+###
+
+# 5) List inventory to confirm deletion
+GET {{LogiTrack_HostAddress}}/api/inventory
+Accept: application/json
+
+###
+
+# Auth controller tests
+
+# 1) Register a new user
+POST {{LogiTrack_HostAddress}}/api/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "testuser",
+  "password": "Password123!"
+}
+
+###
+
+# 2) Login with the registered user credentials (returns JWT token)
+POST {{LogiTrack_HostAddress}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "testuser",
+  "password": "Password123!"
+}
+
+###
+# Inspect the login response for the JWT token. Copy the token value and use it in the Authorization header below.
+
+# 3) Example: Use the JWT token to access a protected endpoint
+# Replace {token} with the actual JWT from the login response above.
+GET {{LogiTrack_HostAddress}}/api/inventory
+Accept: application/json
+Authorization: Bearer {token}
+
+###
+
